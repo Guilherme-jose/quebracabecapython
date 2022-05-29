@@ -14,7 +14,8 @@ class AEstrelaImp(AEstrela):
         qCopy.setTab(qc.getTab())
         start = qCopy.hashCode()
         startPos = qCopy.getTab()
-        openStates = [start]
+        #openStates = [start]
+        openStates = {start : qCopy.getValor}
         g = {start : 0}
 
         f = {start : qCopy.getValor()}
@@ -24,13 +25,16 @@ class AEstrelaImp(AEstrela):
         map = {}
 
         while len(openStates) > 0:
+            current = min(openStates, key=openStates.get)
+
+            '''
             min = Infinity
             current = 0
             for i in openStates:
                 if f[i] < min:
                     min = f[i]
                     current = i
-
+            '''
 
             qCopy.setTab(hash[current])
             if qCopy.isOrdenado():
@@ -44,7 +48,7 @@ class AEstrelaImp(AEstrela):
                     #print(" ")
                     path.insert(0, Posicao(qCopy.getPosVazio().getLinha(), qCopy.getPosVazio().getColuna()))
                 return path
-            openStates.remove(current)
+            openStates.pop(current)
             for m in qCopy.getMovePossiveis():
                 qCopy.move(qCopy.getPosVazio().getLinha(),qCopy.getPosVazio().getColuna(),m.getLinha(), m.getColuna())
                 nextState = qCopy.hashCode()
@@ -56,8 +60,8 @@ class AEstrelaImp(AEstrela):
                     g[nextState] = score
                     f[nextState] = score + qCopy.getValor()
                     hash[nextState] = qCopy.getTab()
-                    if qCopy.getTab() not in openStates:
-                        openStates.append(qCopy.hashCode())
+                    if qCopy.hashCode() not in openStates.keys():
+                        openStates[qCopy.hashCode()] = qCopy.getValor()
                     
                     #print(score)
                 qCopy.setTab(hash[current])
