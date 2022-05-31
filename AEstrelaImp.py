@@ -6,6 +6,7 @@ from Posicao import Posicao
 from AEstrela import AEstrela
 from QuebraCabeca import QuebraCabeca
 from QuebraCabecaImp import QuebraCabecaImp
+import heapq as hq
 
 
 class AEstrelaImp(AEstrela):
@@ -15,7 +16,8 @@ class AEstrelaImp(AEstrela):
         start = qCopy.hashCode()
         startPos = qCopy.getTab()
         #openStates = [start]
-        openStates = {start : qCopy.getValor}
+        openStates = [(qCopy.getValor(), start)]
+        hq.heapify(openStates)
         g = {start : 0}
 
         f = {start : qCopy.getValor()}
@@ -25,7 +27,8 @@ class AEstrelaImp(AEstrela):
         map = {}
 
         while len(openStates) > 0:
-            current = min(openStates, key=openStates.get)
+            temp = hq.heappop(openStates)
+            current = temp[1]
 
             '''
             min = Infinity
@@ -48,7 +51,7 @@ class AEstrelaImp(AEstrela):
                     #print(" ")
                     path.insert(0, Posicao(qCopy.getPosVazio().getLinha(), qCopy.getPosVazio().getColuna()))
                 return path
-            openStates.pop(current)
+
             for m in qCopy.getMovePossiveis():
                 qCopy.move(qCopy.getPosVazio().getLinha(),qCopy.getPosVazio().getColuna(),m.getLinha(), m.getColuna())
                 nextState = qCopy.hashCode()
@@ -60,8 +63,8 @@ class AEstrelaImp(AEstrela):
                     g[nextState] = score
                     f[nextState] = score + qCopy.getValor()
                     hash[nextState] = qCopy.getTab()
-                    if qCopy.hashCode() not in openStates.keys():
-                        openStates[qCopy.hashCode()] = qCopy.getValor()
+                    if qCopy.hashCode() not in [k for v, k in openStates]:
+                        hq.heappush(openStates, (qCopy.getValor(), qCopy.hashCode()))
                     
                     #print(score)
                 qCopy.setTab(hash[current])
