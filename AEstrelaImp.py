@@ -10,7 +10,7 @@ from QuebraCabecaImp import QuebraCabecaImp
 
 class AEstrelaImp(AEstrela):
     def getSolucao(self, qc):
-        qCopy = QuebraCabecaImp() 
+        qCopy = QuebraCabecaImp()
         qCopy.setTab(qc.getTab())
         start = qCopy.hashCode()
         startPos = qCopy.getTab()
@@ -18,7 +18,7 @@ class AEstrelaImp(AEstrela):
         openStates = {start : qCopy.getValor}
         g = {start : 0}
 
-        f = {start : qCopy.getValor()}
+        #f = {start : qCopy.getValor()} incorporated to openstates
 
         hash = {start : startPos}
 
@@ -58,11 +58,10 @@ class AEstrelaImp(AEstrela):
                 if (score < g[nextState]):
                     map[nextState] = current
                     g[nextState] = score
-                    f[nextState] = score + qCopy.getValor()
                     hash[nextState] = qCopy.getTab()
                     if qCopy.hashCode() not in openStates.keys():
-                        openStates[qCopy.hashCode()] = qCopy.getValor()
-                    
+                        openStates[qCopy.hashCode()] = score + qCopy.getValor()
+
                     #print(score)
                 qCopy.setTab(hash[current])
         return []
