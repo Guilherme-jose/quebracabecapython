@@ -51,7 +51,7 @@ class QuebraCabecaImp(QuebraCabeca):
             raise Exception("Fora de dimensao!")
         if(col2 < 0 or col2 > 2):
             raise Exception("Fora de dimensao!")
-        if(self.tab[linha1][col1] != QuebraCabeca.VAZIO):            
+        if(self.tab[linha1][col1] != QuebraCabeca.VAZIO):
             raise Exception("Nao eh a posicao do vazio!")
         if(linha2 != linha1 and col2 != col1):
             raise Exception("Movimento na diagonal!")
@@ -110,7 +110,7 @@ class QuebraCabecaImp(QuebraCabeca):
             lista.append(Posicao(posv.getLinha(), posv.getColuna()-1))
         if(posv.getColuna() < 2):
             lista.append(Posicao(posv.getLinha(), posv.getColuna()+1))
-        
+
         return lista
 
     # retorna o Quebra-cabeca na forma de String para a impressao
@@ -134,7 +134,7 @@ class QuebraCabecaImp(QuebraCabeca):
         for i in range(0, 3):
             for j in range(0, 3):
                 if(self.tab[i][j] != tabaux[i][j]):
-                    return False                
+                    return False
         return True
 
     # Retorna um codigo hash para este quebra-cabeca
@@ -163,4 +163,3 @@ print(qq.toString())
 qq.setTab(QuebraCabecaImp.tabGabarito)
 print(qq.toString())
 '''
-
