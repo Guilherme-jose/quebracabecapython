@@ -11,7 +11,7 @@ import heapq as hq
 
 class AEstrelaImp(AEstrela):
     def getSolucao(self, qc):
-        qCopy = QuebraCabecaImp() 
+        qCopy = QuebraCabecaImp()
         qCopy.setTab(qc.getTab())
         start = qCopy.hashCode()
         startPos = qCopy.getTab()
@@ -19,8 +19,6 @@ class AEstrelaImp(AEstrela):
         openStates = [(qCopy.getValor(), start)]
         hq.heapify(openStates)
         g = {start : 0}
-
-        f = {start : qCopy.getValor()}
 
         hash = {start : startPos}
 
@@ -61,11 +59,10 @@ class AEstrelaImp(AEstrela):
                 if (score < g[nextState]):
                     map[nextState] = current
                     g[nextState] = score
-                    f[nextState] = score + qCopy.getValor()
                     hash[nextState] = qCopy.getTab()
                     if qCopy.hashCode() not in [k for v, k in openStates]:
-                        hq.heappush(openStates, (qCopy.getValor(), qCopy.hashCode()))
-                    
+                        hq.heappush(openStates, (score + qCopy.getValor(), qCopy.hashCode()))
+
                     #print(score)
                 qCopy.setTab(hash[current])
         return []
